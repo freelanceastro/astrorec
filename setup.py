@@ -28,7 +28,7 @@ except IOError:
 setup(
     name='astrorec',
     version=get_version(),
-    author="Adam Becker, Matthew Sofftie, Jonathan Sick, Bekkie Smethurst, "
+    author="Adam Becker, Matthew Sottile, Jonathan Sick, Bekkie Smethurst, "
            "Chris Lintott and .Astronomy",
     # author_email='jonathansick@mac.com',
     license='MIT',

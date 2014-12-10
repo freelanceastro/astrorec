@@ -1,0 +1,4 @@
+**/*.pyc
+astrorec.egg-info/
+build/
+dist/
