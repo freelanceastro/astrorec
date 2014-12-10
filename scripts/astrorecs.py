@@ -10,16 +10,23 @@ import argparse
 from astrorec.latexrec import LaTeXRecommender
 from astrorec.arxivrec import ArXivRecommender
 
+from starlit.bib.adscache import ADSCacheDB
+from starlit.bib.adsdb import ADSBibDB
+
 
 def main():
     args = parse_args()
 
+    cachedb = ADSCacheDB(host='localhost',
+                         port=27017,
+                         ads_db=ADSBibDB())
+
     if os.path.exists(args.input_token):
         # assume it's a latex file
-        paper_rec = LaTeXRecommender(args.input_token)
+        rec = LaTeXRecommender(args.input_token, ads_cache=cachedb)
     else:
         # assume it's an arXiv ID. Could also be a ADS bibcode eventually
-        arxiv_rec = ArXivRecommender(args.input_token)
+        rec = ArXivRecommender(args.input_token)
 
 
 def parse_args():
