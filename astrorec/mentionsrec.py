@@ -38,6 +38,11 @@ class MentionsRecs(object):
                 continue
         secondary_bibcodes = list(set(secondary_bibcodes)
                                   - set(self._primary_bibcodes))
+        # FIXME hack
+        # if "2005ApJ...631..820W" in secondary_bibcodes:
+        #     secondary_bibcodes.remove("2005ApJ...631..820W")
+
+        print "Scoring {0:d} publications".format(len(secondary_bibcodes))
 
         self._secondary_pubs = []
         primary_mentions = np.array(self._primary_mention_counts)
@@ -60,6 +65,7 @@ class SecondaryPub(object):
     """
     def __init__(self, bibcode, adsdb, primary_bibcodes, primary_mentions):
         super(SecondaryPub, self).__init__()
+        print "Making a SecondaryPub for {0}".format(bibcode)
         self._bibcode = bibcode
         self._adsdb = adsdb
         self._primary_bibcodes = primary_bibcodes
@@ -74,10 +80,18 @@ class SecondaryPub(object):
 
         # query ADS for this paper
         pub = adsdb[bibcode]
+        if pub is None:
+            # nothing we can do
+            print "mentionsrec could not get {0} from ADS".format(bibcode)
+            return
 
         # Analyze only quaternay references that appear in the orginal
         # paper too (and thus are likely to be relevant).
-        for bibcode in pub.reference_bibcodes:
+        reference_bibcodes = pub.reference_bibcodes
+        if reference_bibcodes is None:
+            return
+            # FIXME nothing can be done
+        for bibcode in reference_bibcodes:
             if bibcode not in self._primary_bibcodes:
                 continue
             else:
