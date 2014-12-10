@@ -42,7 +42,7 @@ class LaTeXRecommender(object):
                 continue
 
             n_mentions = len(rich_cites)
-            mention_recs.append(ref_pub, n_mentions)
+            mention_recs.add_primary_ref(ref_pub, n_mentions)
 
         mention_recs.analyze_secondary()
         # TODO get top *N* recommendations by score
